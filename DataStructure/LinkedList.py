@@ -2,77 +2,102 @@ class Node:
     def __init__(self,data,next=None):
         self.data=data
         self.next=next
-
+class NodeFunction:
+    def __init__(self,data):
+        self.head=Node(data)
+    
     def addNode(self,data):
-        tempNode=head
-        while tempNode.next:
+        if(self.head==""):
+            self.head=Node(data)
+        else:
+            tempNode=self.head
+            while(tempNode.next):
+                tempNode=tempNode.next
+            tempNode.next=Node(data)
+    def addBetween(self,index,data):
+        pos=0
+        tempNode=self.head
+        preNode= self.head
+        newNode=Node(data)
+        if(index==0):
+            newNode.next=self.head
+            self.head=newNode
+        else:
+            while(tempNode.next):
+                tempNode=tempNode.next
+                pos+=1
+                if(pos==index):
+                    newNode.next=preNode.next
+                    preNode.next=newNode
+                preNode=tempNode
+                
+                
+    def searchNode(self,target):
+        tempNode=self.head
+        while(tempNode.next):
+            if(tempNode.data==target):
+                print("{}을 찾았습니다.".format(target))
+                break
             tempNode=tempNode.next
-        tempNode.next=Node(data)
-        
-    def addBetween(self,head,data,index):
-        if(index==1):
-            tempNode=Node(data,head)
-            head=tempNode
-            return head
+        if(tempNode.next==None):
+            print("{}을 찾지 못했습니다.".format(target))
             
-
     def printNode(self):
-        tempNode=head
-        while tempNode.next:
+        tempNode=self.head
+        while(tempNode):
             print(tempNode.data, end=" ")
             tempNode=tempNode.next
-        print(tempNode.data)
-        print("=================================")
-    def searchNode(self,head,x):
-        count=1
-        tempNode=head
-        while tempNode.next:
-            if(tempNode.data==x):
-                print("찾으시는 노드의 위치는 {}번째에 위치해 있습니다.".format(count))
-                return count
-            tempNode.next=next
-            count+=1
-            
-    def deleteNode(self,head,data):
-        tempNode=head
-        preNode=head
-        if(head.data==self.data):
-            head=tempNode.next
-            tempNode=None
+        print("\n========================")
+    
+    def deleteNode(self,data):
+        tempNode=self.head
+        preNode=self.head
+        if(self.head==''):
+            return -1
+        elif(self.head.data==data):
+            self.head=tempNode.next
         else:
-            while tempNode.next:
-                if(tempNode.next.next==None):
-                    tempNode.next=None
-                    break
-                tempNode.next=next
-                if(tempNode.data==self.data):
-                    preNode.next=tempNode.next
-                    tempNode.next=None
-                    break
-                preNode.next=tempNode
-        
+            while(tempNode.next):
+                tempNode=tempNode.next
+                if(tempNode.data==data):
+                    if(tempNode.next==None):
+                        preNode.next=None
+                        break
+                    else:
+                        preNode.next=tempNode.next
+                        tempNode.next=None
+                preNode=tempNode
 
 # Main
 
 # Create First Node
-node= Node(1)
-head=node
+linkedList= NodeFunction(1)
+
 
 # Add 2 to 10 to linkedList
-for x in range(2,10):
-    node.addNode(x)
+for x in range(2,11):
+    linkedList.addNode(x)
 
-node.printNode()
+linkedList.printNode()
 
 # Add Element between the linkedList  
-head=node.addBetween(head,10,1)
-node.printNode()
-
-# Delete Element
-
-# node.deleteNode(head,10)
-# node.printNode()
+linkedList.addBetween(0,8181)
+linkedList.printNode()
+linkedList.addBetween(5,8282)
+linkedList.printNode()
 
 # Search Node
 
-node.searchNode(head,3)
+linkedList.searchNode(8282)
+print()
+linkedList.searchNode(8000)
+print()
+# Delete Element
+
+linkedList.deleteNode(8181)
+linkedList.printNode()
+linkedList.deleteNode(8282)
+linkedList.printNode()
+linkedList.deleteNode(10)
+linkedList.printNode()
+
